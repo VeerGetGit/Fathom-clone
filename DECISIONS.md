@@ -4,19 +4,17 @@ Engineering and product decisions for Fathom8x, and the trade-offs behind them.
 
 ## Why Fathom over Amazon and Higgsfield
 
-> **[Author to complete.]** The brief for the Amazon and Higgsfield options isn't recorded in this
-> repository, so this section covers only the case for Fathom.
+I chose Fathom for five reasons:
 
-- **I know the product first-hand.** I have used the real Fathom and understand its flows, so I could
-  decide what matters (summary, transcript, ask, action items, share) and what can be left out, instead of
-  guessing.
-- **The core is a clear data and AI loop.** A transcript goes in, and a summary, highlights, action items and
-  answers come out. That loop is buildable and demonstrable without special hardware or third-party
-  accounts.
-- **It is easy to judge quickly.** Every feature can be exercised in the browser in a minute, on data that
-  is already there.
-- **Scope can be cut without breaking the story.** Recording and integrations can be stubbed while the product
-  experience stays intact (see below).
+1. **Prior experience match.** My HCP CRM project used React + FastAPI + LangGraph + Groq + Supabase, which maps directly to Fathom's stack. My Agentic RAG Chatbot involved summarization and text extraction from documents. I had built the core building blocks before and knew I could execute well.
+
+2. **I used the real product first.** I signed up, connected Zoom, recorded two real meetings, and tested every flow: transcript, summary templates, Ask Fathom, search, share, action items. I understood what I was building before writing a line of code.
+
+3. **Higgsfield was not cloneable in 24 hours.** Its core value is proprietary AI video generation models (Seedance 2.5, Genjutsu). Without those models, a clone is an empty UI. There is no way to fake the actual product.
+
+4. **Amazon's scope is too large.** Search, product pages, cart, checkout, recommendations, filters, reviews. Covering all flows properly in 24 hours is not feasible. The result would be incomplete and feel shallow.
+
+5. **Fathom's intelligence layer is achievable.** Transcript to summary to chat is text-to-text, which Groq handles well. The recording bot can be legitimately stubbed per the brief. The scope is right for 24 hours and I could build it to a high standard.
 
 ## Why stubbing the recording layer was the right call
 

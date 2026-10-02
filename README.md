@@ -8,7 +8,7 @@ The meetings in this build are **seeded** (4 realistic calls with full transcrip
 recording bot, so the product is exercised end to end on that data. See
 [What was stubbed](#what-was-stubbed-and-why).
 
-> **Live demo:** _add the Vercel URL here_ &nbsp;·&nbsp; **API:** _add the Render URL here_
+> **Live demo:** https://fathom-clone-rouge.vercel.app &nbsp;·&nbsp; **API:** https://fathom-clone.onrender.com
 >
 > The API runs on Render's free tier and sleeps when idle. The first request after a quiet period
 > can take up to a minute; the app shows a splash screen explaining this.
