@@ -1,7 +1,8 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { api } from "../api/client";
 import { ChatPanel } from "../components/chat/ChatPanel";
-import { ErrorBox, Spinner } from "../components/common/States";
+import { SplashScreen } from "../components/common/SplashScreen";
+import { ErrorBox } from "../components/common/States";
 import { MeetingCard } from "../components/dashboard/MeetingCard";
 import { useFetch } from "../hooks/useFetch";
 import { groupMeetings } from "../lib/groupMeetings";
@@ -12,14 +13,21 @@ const SUGGESTIONS = [
   "What action items do I own across all meetings?",
 ];
 
+// Show the splash only on the first dashboard load of a session.
+let splashShown = false;
+
 export function Dashboard() {
   const { data, error, loading } = useFetch(api.meetings, []);
+  const [showSplash] = useState(() => !splashShown);
+  useEffect(() => {
+    splashShown = true;
+  }, []);
   const groups = useMemo(() => (data ? groupMeetings(data) : []), [data]);
 
   return (
     <div className="flex h-full">
+      {showSplash && <SplashScreen ready={!loading} />}
       <section className="min-w-0 flex-1 overflow-y-auto px-6 py-6">
-        {loading && <Spinner />}
         {error && <ErrorBox message={`Couldn't load meetings: ${error}`} />}
         <div className="space-y-9">
           {groups.map((g) => (
