@@ -79,31 +79,43 @@ export function TranscriptTab({
               <div key={s.id} className="flex justify-center">
                 <button
                   onClick={() => onSeek(s.start_seconds)}
-                  className="rounded-full border border-line bg-surface-2 px-3 py-1 text-xs text-muted hover:border-accent/60"
+                  className="rounded-full border border-line bg-surface-2 px-3.5 py-1.5 text-xs text-zinc-300 transition hover:border-accent/60"
                 >
-                  🖥 {formatTimestamp(s.start_seconds)} ·{" "}
-                  {starting ? `Screen sharing started: ${s.text}` : "Screen sharing ended"}
+                  🖥 {starting ? "Screen sharing started" : "Screen sharing ended"} @{" "}
+                  <span className="font-mono text-accent">{formatTimestamp(s.start_seconds)}</span>
+                  {starting && <span className="text-muted"> · {s.text}</span>}
                 </button>
               </div>
             );
           }
           const active = s.segment_index === activeIndex;
           return (
-            <div key={s.id} className="flex items-start gap-3">
+            <div
+              key={s.id}
+              role="button"
+              tabIndex={0}
+              onClick={() => onSeek(s.start_seconds)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onSeek(s.start_seconds);
+                }
+              }}
+              className="group flex cursor-pointer items-start gap-3"
+            >
               <Avatar name={s.speaker ?? "?"} color={s.speaker_color} size={32} />
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-baseline gap-2">
                   <span className="text-sm font-semibold">{s.speaker}</span>
-                  <button
-                    onClick={() => onSeek(s.start_seconds)}
-                    className="font-mono text-xs text-accent hover:underline"
-                  >
+                  <span className="font-mono text-xs text-accent group-hover:underline">
                     {formatTimestamp(s.start_seconds)}
-                  </button>
+                  </span>
                 </div>
                 <div
                   className={`rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-sm leading-relaxed transition-colors ${
-                    active ? "bg-accent-dim ring-1 ring-accent/50" : "bg-surface-2"
+                    active
+                      ? "bg-accent-dim ring-1 ring-accent/50"
+                      : "bg-surface-2 group-hover:bg-surface-2/60 group-hover:ring-1 group-hover:ring-line"
                   }`}
                 >
                   <Highlighted text={s.text} query={query.trim()} />

@@ -3,6 +3,7 @@ import { api } from "../api/client";
 import { AvatarStack } from "../components/common/Avatar";
 import { Spinner } from "../components/common/States";
 import { ActionItemsPanel } from "../components/meeting/ActionItemsPanel";
+import { ScreenShareEvents } from "../components/meeting/ScreenShareEvents";
 import { SummaryTab } from "../components/meeting/SummaryTab";
 import { VideoPlayer } from "../components/meeting/VideoPlayer";
 import { useFetch } from "../hooks/useFetch";
@@ -63,6 +64,9 @@ export function SharedMeeting() {
         </div>
         <aside className="h-fit rounded-xl border border-line bg-surface p-5">
           <ActionItemsPanel meetingId={meeting.id} onSeek={seek} readOnly />
+          <div className="mt-6">
+            <ScreenShareEvents meetingId={meeting.id} onSeek={seek} />
+          </div>
         </aside>
       </div>
     </div>

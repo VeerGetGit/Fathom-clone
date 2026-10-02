@@ -5,6 +5,7 @@ import { AvatarStack } from "../components/common/Avatar";
 import { ChatPanel } from "../components/chat/ChatPanel";
 import { ErrorBox, Spinner } from "../components/common/States";
 import { ActionItemsPanel } from "../components/meeting/ActionItemsPanel";
+import { ScreenShareEvents } from "../components/meeting/ScreenShareEvents";
 import { ShareButton } from "../components/meeting/ShareButton";
 import { SummaryTab } from "../components/meeting/SummaryTab";
 import { TranscriptTab } from "../components/meeting/TranscriptTab";
@@ -118,6 +119,7 @@ export function MeetingDetail() {
       <aside className="w-full shrink-0 space-y-6 overflow-y-auto border-t border-line bg-surface p-5 xl:w-[340px] xl:border-l xl:border-t-0">
         <ShareButton meetingId={meeting.id} />
         <ActionItemsPanel meetingId={meeting.id} onSeek={seek} />
+        <ScreenShareEvents meetingId={meeting.id} onSeek={seek} />
       </aside>
     </div>
   );
