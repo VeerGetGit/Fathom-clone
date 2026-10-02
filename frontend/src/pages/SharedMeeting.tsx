@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { api } from "../api/client";
 import { AvatarStack } from "../components/common/Avatar";
+import { Logo } from "../components/common/Logo";
 import { Spinner } from "../components/common/States";
 import { ActionItemsPanel } from "../components/meeting/ActionItemsPanel";
 import { ScreenShareEvents } from "../components/meeting/ScreenShareEvents";
@@ -29,10 +30,7 @@ export function SharedMeeting() {
   return (
     <div className="min-h-full">
       <header className="flex items-center gap-2 border-b border-line bg-surface px-6 py-4">
-        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent text-sm font-bold text-black">
-          F
-        </span>
-        <span className="text-lg font-semibold tracking-tight">Fathom</span>
+        <Logo />
         <span className="ml-3 rounded-full bg-surface-2 px-2.5 py-0.5 text-xs text-muted">
           Shared meeting
         </span>

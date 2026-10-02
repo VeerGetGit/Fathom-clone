@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import get_settings
 from app.routers import action_items, chat, meetings, search, share, summaries
 
-app = FastAPI(title="Fathom Clone API")
+app = FastAPI(title="Fathom8x API")
 
 app.add_middleware(
     CORSMiddleware,

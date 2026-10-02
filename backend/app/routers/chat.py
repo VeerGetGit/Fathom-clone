@@ -19,7 +19,7 @@ def _ask(meeting_id: str | None, message: str, context: str) -> dict:
     try:
         answer = groq_service.answer_question(message, context, history)
     except Exception as e:
-        raise HTTPException(502, f"Ask Fathom failed: {e}")
+        raise HTTPException(502, f"Ask Fathom8x failed: {e}")
     get_db().table("chat_messages").insert([
         {"meeting_id": meeting_id, "role": "user", "content": message},
         {"meeting_id": meeting_id, "role": "assistant", "content": answer},
@@ -54,7 +54,7 @@ def global_chat_history():
 
 @router.post("/chat")
 def global_chat(body: ChatRequest):
-    """Ask Fathom across every meeting."""
+    """Ask Fathom8x across every meeting."""
     blocks = []
     meetings = get_db().table("meetings").select("id,title,started_at").order("started_at").execute().data
     for m in meetings:

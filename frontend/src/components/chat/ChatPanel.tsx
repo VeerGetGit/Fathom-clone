@@ -87,7 +87,7 @@ export function ChatPanel({ meetingId, suggestions, placeholder, onSeek }: Props
             </div>
           ),
         )}
-        {busy && <div className="text-sm text-muted">Fathom is thinking…</div>}
+        {busy && <div className="text-sm text-muted">Fathom8x is thinking…</div>}
         {error && (
           <div className="rounded-lg border border-red-900/60 bg-red-950/30 p-3 text-xs text-red-300">
             {error}
@@ -112,7 +112,7 @@ export function ChatPanel({ meetingId, suggestions, placeholder, onSeek }: Props
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={placeholder ?? "Ask Fathom…"}
+            placeholder={placeholder ?? "Ask Fathom8x…"}
             className="min-w-0 flex-1 rounded-lg border border-line bg-surface-2 px-3 py-2 text-sm outline-none placeholder:text-muted focus:border-accent"
           />
           <button

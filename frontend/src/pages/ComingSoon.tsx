@@ -5,7 +5,7 @@ export function ComingSoon({ title }: { title: string }) {
         Coming Soon
       </span>
       <h1 className="text-2xl font-semibold">{title}</h1>
-      <p className="max-w-sm text-sm text-muted">This part of Fathom isn’t built in this demo yet.</p>
+      <p className="max-w-sm text-sm text-muted">This part of Fathom8x isn’t built in this demo yet.</p>
     </div>
   );
 }

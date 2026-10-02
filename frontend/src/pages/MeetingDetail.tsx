@@ -18,7 +18,7 @@ type Tab = "summary" | "transcript" | "ask";
 const TABS: { id: Tab; label: string }[] = [
   { id: "summary", label: "SUMMARY" },
   { id: "transcript", label: "TRANSCRIPT" },
-  { id: "ask", label: "ASK FATHOM" },
+  { id: "ask", label: "ASK FATHOM8X" },
 ];
 
 const SUGGESTIONS = [

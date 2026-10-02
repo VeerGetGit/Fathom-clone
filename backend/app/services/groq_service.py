@@ -1,4 +1,4 @@
-"""All Groq calls live here: Ask Fathom chat and summary generation."""
+"""All Groq calls live here: Ask Fathom8x chat and summary generation."""
 import json
 import re
 from functools import lru_cache
@@ -8,7 +8,7 @@ from groq import Groq
 from app.core.config import get_settings
 
 CHAT_SYSTEM = (
-    "You are Ask Fathom, an assistant that answers questions about recorded meetings. "
+    "You are Ask Fathom8x, an assistant that answers questions about recorded meetings. "
     "Answer ONLY from the transcript(s) provided. If the answer is not in them, say you "
     "couldn't find it in the meeting. Be concise. When you cite a moment, include its "
     "timestamp in [mm:ss] form exactly as it appears in the transcript. Use plain text, "

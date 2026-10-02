@@ -172,7 +172,7 @@ export function SummaryTab({
           >
             <h3 className="mb-1 font-semibold">Customize summary</h3>
             <p className="mb-3 text-sm text-muted">
-              Tell Fathom what to focus on. It will regenerate the {template.replace("_", " ")} summary.
+              Tell Fathom8x what to focus on. It will regenerate the {template.replace("_", " ")} summary.
             </p>
             <textarea
               value={prompt}

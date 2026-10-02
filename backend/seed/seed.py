@@ -1,5 +1,10 @@
-"""Seed the 4 demo meetings. Run from backend/:  python -m seed.seed"""
+"""Seed the 4 demo meetings. Run from backend/:  python -m seed.seed
+
+To only move the meeting dates to "now" (keeps chats and checked action items):
+    python -m seed.seed --dates
+"""
 import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -12,6 +17,19 @@ VIDEO_URL = "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunn
 
 MODULES = [data_roadmap, data_sales, data_review, data_architecture]
 
+# How long before "now" each meeting started, so the dashboard shows the
+# Today / Yesterday / This Week groups whenever the data is (re)seeded.
+STARTED_AGO = {
+    data_roadmap: timedelta(hours=96),
+    data_sales: timedelta(hours=48),
+    data_review: timedelta(hours=24),
+    data_architecture: timedelta(minutes=70),
+}
+
+
+def started_at(mod) -> str:
+    return (datetime.now(timezone.utc) - STARTED_AGO[mod]).isoformat()
+
 
 def to_seconds(ts: str) -> float:
     m, s = ts.split(":")
@@ -19,7 +37,7 @@ def to_seconds(ts: str) -> float:
 
 
 def seed_module(db, mod) -> None:
-    meeting = db.table("meetings").insert({**mod.MEETING, "video_url": VIDEO_URL}).execute().data[0]
+    meeting = db.table("meetings").insert({**mod.MEETING, "video_url": VIDEO_URL, "started_at": started_at(mod)}).execute().data[0]
     mid = meeting["id"]
 
     people = db.table("participants").insert(
@@ -59,7 +77,16 @@ def seed_module(db, mod) -> None:
     print(f"seeded: {mod.MEETING['title']} ({len(rows)} segments)")
 
 
+def refresh_dates() -> None:
+    db = get_db()
+    for mod in MODULES:
+        db.table("meetings").update({"started_at": started_at(mod)}).eq("title", mod.MEETING["title"]).execute()
+        print(f"dated: {mod.MEETING['title']}")
+
+
 def main() -> None:
+    if "--dates" in sys.argv:
+        return refresh_dates()
     db = get_db()
     # cascade deletes children; the filter matches every row
     db.table("chat_messages").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
