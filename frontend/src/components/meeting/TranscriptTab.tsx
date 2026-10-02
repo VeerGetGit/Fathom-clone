@@ -62,8 +62,7 @@ export function TranscriptTab({
           ? `[${t}] (Screen sharing started: ${s.text})`
           : `[${t}] (Screen sharing ended)`;
       })
-      .join("
-");
+      .join("\n");
     await navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
