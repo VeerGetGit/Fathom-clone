@@ -8,7 +8,7 @@ from app.core.db import get_db  # noqa: E402
 from seed import data_architecture, data_review, data_roadmap, data_sales  # noqa: E402
 
 # No real recordings exist, so every meeting points at the same public sample video.
-VIDEO_URL = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+VIDEO_URL = "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
 
 MODULES = [data_roadmap, data_sales, data_review, data_architecture]
 
