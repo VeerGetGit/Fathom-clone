@@ -37,6 +37,7 @@ export function TranscriptTab({
 }) {
   const { data, error, loading } = useFetch(() => api.transcript(meetingId), [meetingId]);
   const [query, setQuery] = useState(initialQuery);
+  const [copied, setCopied] = useState(false);
 
   const visible = useMemo(() => {
     if (!data) return [];
@@ -51,18 +52,43 @@ export function TranscriptTab({
     return idx;
   }, [data, currentSeconds]);
 
+  async function copyTranscript() {
+    if (!data) return;
+    const text = data
+      .map((s) => {
+        const t = formatTimestamp(s.start_seconds);
+        if (s.segment_type === "speech") return `[${t}] ${s.speaker ?? "Unknown"}: ${s.text}`;
+        return s.segment_type === "screen_share_start"
+          ? `[${t}] (Screen sharing started: ${s.text})`
+          : `[${t}] (Screen sharing ended)`;
+      })
+      .join("
+");
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
   if (loading) return <Spinner label="Loading transcript…" />;
   if (error) return <ErrorBox message={error} />;
 
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="border-b border-line p-3">
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search transcript"
-          className="w-full rounded-lg border border-line bg-surface-2 px-3 py-2 text-sm outline-none placeholder:text-muted focus:border-accent"
-        />
+        <div className="flex gap-2">
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search transcript"
+            className="min-w-0 flex-1 rounded-lg border border-line bg-surface-2 px-3 py-2 text-sm outline-none placeholder:text-muted focus:border-accent"
+          />
+          <button
+            onClick={copyTranscript}
+            className="shrink-0 rounded-lg border border-line px-3 py-2 text-sm text-zinc-300 transition hover:border-accent/60"
+          >
+            {copied ? "Copied!" : "Copy Transcript"}
+          </button>
+        </div>
         {query.trim() && (
           <p className="mt-1.5 text-xs text-muted">
             {visible.length} {visible.length === 1 ? "match" : "matches"}

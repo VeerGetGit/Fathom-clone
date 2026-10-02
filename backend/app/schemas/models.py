@@ -14,5 +14,9 @@ class SummaryRequest(BaseModel):
     custom_prompt: Optional[str] = Field(default=None, max_length=1000)
 
 
+class ActionItemCreate(BaseModel):
+    description: str = Field(min_length=1, max_length=500)
+
+
 class ActionItemUpdate(BaseModel):
     is_completed: bool

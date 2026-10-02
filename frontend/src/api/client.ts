@@ -39,6 +39,8 @@ export const api = {
   regenerateSummary: (id: string, template: Template, custom_prompt: string | null) =>
     request<Summary>(`/api/meetings/${id}/summary`, post({ template, custom_prompt })),
   actionItems: (id: string) => request<ActionItem[]>(`/api/meetings/${id}/action-items`),
+  createActionItem: (meetingId: string, description: string) =>
+    request<ActionItem>(`/api/meetings/${meetingId}/action-items`, post({ description })),
   setActionItem: (id: string, is_completed: boolean) =>
     request<ActionItem>(`/api/action-items/${id}`, {
       method: "PATCH",

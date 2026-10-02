@@ -15,6 +15,8 @@ export function ActionItemsPanel({
 }) {
   const [items, setItems] = useState<ActionItem[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [draft, setDraft] = useState("");
+  const [adding, setAdding] = useState(false);
 
   useEffect(() => {
     setItems(null);
@@ -33,7 +35,24 @@ export function ActionItemsPanel({
     }
   }
 
-  if (error) return <ErrorBox message={error} />;
+  async function add(e: React.FormEvent) {
+    e.preventDefault();
+    const description = draft.trim();
+    if (!description || adding) return;
+    setAdding(true);
+    try {
+      const created = await api.createActionItem(meetingId, description);
+      setItems((all) => [...(all ?? []), created]);
+      setDraft("");
+      setError(null);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setAdding(false);
+    }
+  }
+
+  if (error && !items) return <ErrorBox message={error} />;
   if (!items) return <Spinner />;
 
   const done = items.filter((i) => i.is_completed).length;
@@ -76,6 +95,26 @@ export function ActionItemsPanel({
           </li>
         ))}
       </ul>
+      {error && <p className="mt-3 text-xs text-red-300">{error}</p>}
+      {!readOnly && (
+        <form onSubmit={add} className="mt-4 flex gap-2">
+          <input
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            maxLength={500}
+            placeholder="Add an action item"
+            className="min-w-0 flex-1 rounded-lg border border-line bg-surface-2 px-3 py-2 text-sm outline-none placeholder:text-muted focus:border-accent"
+          />
+          <button
+            type="submit"
+            disabled={adding || !draft.trim()}
+            aria-label="Add action item"
+            className="w-9 shrink-0 rounded-lg bg-accent text-lg font-semibold leading-none text-black transition enabled:hover:brightness-110 disabled:opacity-40"
+          >
+            +
+          </button>
+        </form>
+      )}
     </div>
   );
 }

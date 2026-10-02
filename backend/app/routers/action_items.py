@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException
 
 from app.core.db import get_db
-from app.schemas.models import ActionItemUpdate
+from app.schemas.models import ActionItemCreate, ActionItemUpdate
 from app.services import meeting_service as ms
 
 router = APIRouter(prefix="/api", tags=["action-items"])
@@ -16,6 +16,18 @@ def list_action_items(meeting_id: str):
     items = (get_db().table("action_items").select("*").eq("meeting_id", meeting_id)
              .order("start_seconds").execute().data)
     return [{**i, "assignee": names.get(i.get("assignee_id") or "")} for i in items]
+
+
+@router.post("/meetings/{meeting_id}/action-items", status_code=201)
+def create_action_item(meeting_id: str, body: ActionItemCreate):
+    ms.get_meeting_or_404(meeting_id)
+    description = body.description.strip()
+    if not description:
+        raise HTTPException(422, "Description cannot be blank")
+    row = (get_db().table("action_items")
+           .insert({"meeting_id": meeting_id, "description": description})
+           .execute().data[0])
+    return {**row, "assignee": None}
 
 
 @router.patch("/action-items/{item_id}")
